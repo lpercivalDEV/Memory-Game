@@ -1,8 +1,9 @@
 
 var deck = [];
+var pair =[];
 $(document).ready(function(){
     var makeDeck = function(){
-        for (var i=0; i<18; i++){
+        for (var i=0; i<16; i++){
           var rndm = Math.floor(Math.random()*20);
           if (deck.indexOf(rndm) == -1){
               deck.push(rndm);
@@ -25,22 +26,7 @@ $(document).ready(function(){
 
     }
 
-    var guess = function(){
-        //get user's guess
-       var first = prompt('firstGuess between 1-20');
-       var second = prompt('secondGuess between 1-20');
-       //correct for index
-       first -= 1;
-       second -= 1;
-       console.log( first, second)
-       //check
-       if (deck[first] === deck[second]){
-         alert('correct guess!')
-       }else {
-         alert('guess again!')
-         guess();
-       }
-    }
+  
     makeDeck();
     console.log(deck);
     shuffle();
@@ -49,16 +35,26 @@ $(document).ready(function(){
     for(var i=0; i<deck.length; i++){
       $('.container').append('<div class="card"></div>');
     };
-    $('.card').each(function(i){
-      var self = this;
-      $(this).click(function(){
-        var cName = 'c'+deck[i];
-        console.log(cName);
-        console.log(self);
-        $(self).toggleClass(cName);
-      })
-    });
 
+    $('.card').each(function(i){
+        var self = this;
+        $(this).click(function(){
+            if(pair.length < 2){
+              pair.push(i);
+              console.log(pair);
+              var cName = 'c'+deck[i];
+              $(self).toggleClass(cName);
+            }else{
+              var x = pair[0];
+              var y = pair[1];
+              if(deck[x] !== deck[y]){
+                    $('.card').eq(x).attr('class', 'card');
+                    $('.card').eq(y).attr('class', 'card');
+                }
+              pair.length = 0;
+            }
+          });
+      });
 
 
   //  guess();
