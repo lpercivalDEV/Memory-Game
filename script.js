@@ -1,9 +1,10 @@
 
-var deck = [];
-var pair =[];
+
 $(document).ready(function(){
-    var makeDeck = function(){
-        for (var i=0; i<16; i++){
+  var deck = [];
+  var pair = [];
+    var makeDeck = function(numPairs){
+        for (var i=0; i<numPairs; i++){
           var rndm = Math.floor(Math.random()*20);
           if (deck.indexOf(rndm) == -1){
               deck.push(rndm);
@@ -26,15 +27,28 @@ $(document).ready(function(){
 
     }
 
-  
-    makeDeck();
-    console.log(deck);
-    shuffle();
-    console.log(deck);
+    var displayCards = function(){
+          for(var i=0; i<deck.length; i++){
+          $('.container').append('<div class="card"></div>');
+          };
+    }
 
-    for(var i=0; i<deck.length; i++){
-      $('.container').append('<div class="card"></div>');
-    };
+  // var level = prompt('choose levels 1, 2, 3');
+  //   switch (level){
+  //     case '1':
+  //       makeDeck(8);
+  //       break;
+  //     case '2':
+  //       makeDeck(12);
+  //       break;
+  //     case '3':
+  //       makeDeck(16);
+  //       break;
+  //   }
+    makeDeck(16);
+    //makeDeck();
+    shuffle();
+    displayCards();
 
     $('.card').each(function(i){
         var self = this;
@@ -48,21 +62,13 @@ $(document).ready(function(){
               var x = pair[0];
               var y = pair[1];
               if(deck[x] !== deck[y]){
-                    $('.card').eq(x).attr('class', 'card');
-                    $('.card').eq(y).attr('class', 'card');
+                  setTimeout(function(){$('.card').eq(x).attr('class', 'card');
+                  $('.card').eq(y).attr('class', 'card');}, 1000);
+
                 }
               pair.length = 0;
             }
           });
       });
-
-
-  //  guess();
-
-
-
-
-
-
 
 });
