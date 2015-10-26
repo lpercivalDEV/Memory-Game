@@ -1,8 +1,7 @@
-
-
 $(document).ready(function(){
   var deck = [];
   var pair = [];
+  // This function generates random numbers from 0-20 (21 possible card patterns) and inserts them into the array twice
     var makeDeck = function(numPairs){
         for (var i=0; i<numPairs; i++){
           var rndm = Math.floor(Math.random()*20);
@@ -14,7 +13,7 @@ $(document).ready(function(){
           }
         }
     }
-
+  // This function uses Fisher-Yates method to shuffle the deck
     var shuffle = function(){
       var temp, i, n = deck.length;
 
@@ -24,51 +23,62 @@ $(document).ready(function(){
         deck[n] = deck[i];
         deck[i] = temp;
       }
-
     }
-
+    //This function creates the card divs in the class container
     var displayCards = function(){
           for(var i=0; i<deck.length; i++){
           $('.container').append('<div class="card"></div>');
           };
     }
+    //This function creates click events, compares pairs and counts attempts and matches
+    var playGame = function(){
+      var attempts = 0;
+      var matches = 0;
+      var ready = true;
+        $('.card').each(function(i){
+            var self = this;
+            $(this).click(function(){
+                if(ready === true){
+                    pair.push(i);
+                    var cName = 'c'+deck[i];
+                    $(self).toggleClass(cName);
+                }
+                if(pair.length === 2){
+                  ready = false;
+                  attempts++;
+                  $('#attempts').html('Attempts: '+attempts);
+                    var x = pair[0];
+                    var y = pair[1];
+                    if(deck[x] !== deck[y]){
+                        setTimeout(function(){
+                          $('.card').eq(x).attr('class', 'card');
+                          $('.card').eq(y).attr('class', 'card');
+                          ready = true;
+                        }, 2000);
+                    }else {
+                      matches ++;
+                      $('#matches').html('Matches: '+matches);
+                      ready = true;
+                    }
+                    pair.length = 0;
+                }
 
-  // var level = prompt('choose levels 1, 2, 3');
-  //   switch (level){
-  //     case '1':
-  //       makeDeck(8);
-  //       break;
-  //     case '2':
-  //       makeDeck(12);
-  //       break;
-  //     case '3':
-  //       makeDeck(16);
-  //       break;
-  //   }
-    makeDeck(16);
-    //makeDeck();
+            });
+        });
+    }
+    //function calls
+    makeDeck(14);
     shuffle();
     displayCards();
-
-    $('.card').each(function(i){
-        var self = this;
-        $(this).click(function(){
-            if(pair.length < 2){
-              pair.push(i);
-              console.log(pair);
-              var cName = 'c'+deck[i];
-              $(self).toggleClass(cName);
-            }else{
-              var x = pair[0];
-              var y = pair[1];
-              if(deck[x] !== deck[y]){
-                  setTimeout(function(){$('.card').eq(x).attr('class', 'card');
-                  $('.card').eq(y).attr('class', 'card');}, 1000);
-
-                }
-              pair.length = 0;
-            }
-          });
-      });
+    playGame();
+    //resets and calls functions again
+    $('#reset').click(function(){
+        deck = [];
+        $('.card').remove();
+        makeDeck(16);
+        shuffle();
+        displayCards();
+        playGame();
+    });
 
 });
