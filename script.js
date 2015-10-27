@@ -32,7 +32,7 @@ $(document).ready(function(){
     }
     //This function creates click events, compares pairs and counts attempts and matches
     var playGame = function(){
-      var attempts = 0;
+      var attempts = 20;
       var matches = 0;
       var ready = true;
         $('.card').each(function(i){
@@ -45,11 +45,10 @@ $(document).ready(function(){
                 }
                 if(pair.length === 2){
                   ready = false;
-                  attempts++;
-                  $('#attempts').html('Attempts: '+attempts);
                     var x = pair[0];
                     var y = pair[1];
                     if(deck[x] !== deck[y]){
+                      attempts--;
                         setTimeout(function(){
                           $('.card').eq(x).attr('class', 'card');
                           $('.card').eq(y).attr('class', 'card');
@@ -57,9 +56,11 @@ $(document).ready(function(){
                         }, 2000);
                     }else {
                       matches ++;
+                      attempts ++;
                       $('#matches').html('Matches: '+matches);
                       ready = true;
                     }
+                    $('#attempts').html('Remaining Attempts: '+attempts);
                     pair.length = 0;
                 }
 
@@ -67,13 +68,15 @@ $(document).ready(function(){
         });
     }
     //function calls
-    makeDeck(14);
+    makeDeck(16);
     shuffle();
     displayCards();
     playGame();
     //resets and calls functions again
     $('#reset').click(function(){
         deck = [];
+        $('#attempts').html('Remaining Attempts: 30');
+        $('#matches').html('Matches: 0');
         $('.card').remove();
         makeDeck(16);
         shuffle();
