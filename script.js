@@ -12,6 +12,7 @@ $(document).ready(function(){
             i--;
           }
         }
+        shuffle();
     }
   // This function uses Fisher-Yates method to shuffle the deck
     var shuffle = function(){
@@ -30,18 +31,28 @@ $(document).ready(function(){
           $('.container').append('<div class="card"></div>');
           };
     }
-    //This function creates click events, compares pairs and counts attempts and matches
+
+    var winOrLose = function(attempts, matches){
+      if (attempts == 0 && matches < 16 ){
+        $('.card').each(function(i){
+                var cName = 'c'+deck[i];
+                $(this).addClass(cName);
+                $('.container').append('<h1 class="prompt">Try Again!</h1>')
+        });
+      }
+    }
+  //This function creates click events, compares pairs and counts attempts and matches
     var playGame = function(){
       var attempts = 20;
       var matches = 0;
       var ready = true;
         $('.card').each(function(i){
-            var self = this;
             $(this).click(function(){
                 if(ready === true){
+                    winOrLose(attempts, matches);
                     pair.push(i);
                     var cName = 'c'+deck[i];
-                    $(self).toggleClass(cName);
+                    $(this).addClass(cName);
                 }
                 if(pair.length === 2){
                   ready = false;
@@ -53,13 +64,18 @@ $(document).ready(function(){
                           $('.card').eq(x).attr('class', 'card');
                           $('.card').eq(y).attr('class', 'card');
                           ready = true;
-                        }, 2000);
-                    }else {
-                      matches ++;
-                      attempts ++;
-                      $('#matches').html('Matches: '+matches);
+                        }, 1500);
+                    }else{
+                      //checks to make sure the same card hasn't been clicked twice
+                      if(x !== y){
+                          matches ++;
+                          attempts ++;
+                          $('.card').eq(x).off('click');
+                          $('.card').eq(y).off('click');
+                      }
                       ready = true;
                     }
+                    $('#matches').html('Matches: '+matches);
                     $('#attempts').html('Remaining Attempts: '+attempts);
                     pair.length = 0;
                 }
@@ -69,17 +85,15 @@ $(document).ready(function(){
     }
     //function calls
     makeDeck(16);
-    shuffle();
     displayCards();
     playGame();
     //resets and calls functions again
     $('#reset').click(function(){
         deck = [];
-        $('#attempts').html('Remaining Attempts: 30');
+        $('#attempts').html('Remaining Attempts: 20');
         $('#matches').html('Matches: 0');
         $('.card').remove();
         makeDeck(16);
-        shuffle();
         displayCards();
         playGame();
     });
