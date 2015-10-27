@@ -39,6 +39,8 @@ $(document).ready(function(){
                 $(this).addClass(cName);
                 $('.container').append('<h1 class="prompt">Try Again!</h1>')
         });
+      }else if (matches == 16 && attempts >= 0) {
+        $('.container').append('<h1 class="prompt">Well Done!</h1>');
       }
     }
   //This function creates click events, compares pairs and counts attempts and matches
@@ -49,7 +51,6 @@ $(document).ready(function(){
         $('.card').each(function(i){
             $(this).click(function(){
                 if(ready === true){
-                    winOrLose(attempts, matches);
                     pair.push(i);
                     var cName = 'c'+deck[i];
                     $(this).addClass(cName);
@@ -75,6 +76,7 @@ $(document).ready(function(){
                       }
                       ready = true;
                     }
+                    winOrLose(attempts, matches);
                     $('#matches').html('Matches: '+matches);
                     $('#attempts').html('Remaining Attempts: '+attempts);
                     pair.length = 0;
@@ -93,6 +95,7 @@ $(document).ready(function(){
         $('#attempts').html('Remaining Attempts: 20');
         $('#matches').html('Matches: 0');
         $('.card').remove();
+        $('.prompt').remove();
         makeDeck(16);
         displayCards();
         playGame();
