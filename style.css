@@ -36,18 +36,18 @@ header{
   top: 0;
   left: 0;
 }
-ul{
+nav ul{
   display: inline-block;
   float: left;
   margin: 10px 0 5px 0;
 }
-li{
+nav li{
   list-style: none;
   display: inline-block;
   padding: 5px;
   margin-left: 50px;
 }
-li:first-child{
+nav li:first-child{
   margin-left: 300px;
 }
 
@@ -85,12 +85,33 @@ li:first-child{
 .prompt{
   font-size: 4em;
   position: absolute;
-  top: 300px;
-  left: 450px;
+  top: 250px;
+  left: 375px;
   z-index: 2;
   margin: 0;
   padding: 20px;
   background-color: tomato;
+}
+footer{
+  background-color: tomato;
+  margin: 0;
+  width: 7%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+li a{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+footer li{
+  list-style: none;
+  padding: 5px 2px 5px 2px;
+}
+footer ul{
+  margin: 0;
+  padding: 0;
 }
 
 .c0{
