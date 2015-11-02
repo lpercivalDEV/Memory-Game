@@ -93,7 +93,7 @@ $(document).ready(function(){
     var makeDeck = function(numPairs){
       deck = [];
         for (var i=0; i<numPairs; i++){
-          var rndm = Math.floor(Math.random()*20);
+          var rndm = Math.floor(Math.random()*24);
           if (deck.indexOf(rndm) == -1){
               deck.push(rndm);
               deck.push(rndm);
